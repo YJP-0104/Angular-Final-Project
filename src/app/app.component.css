@@ -1,0 +1,37 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+mat-toolbar {
+  position: sticky;
+  /* Keep the toolbar fixed at the top */
+  top: 0;
+  z-index: 1000;
+}
+
+mat-toolbar a {
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+mat-toolbar span {
+  color: black;
+}
+
+.router-container {
+  flex-direction: column;
+  /* Stack items vertically */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
+  height: 1200vh;
+  /* Full viewport height */
+  padding: 80px 16px 16px;
+  /* 80px top padding, 16px horizontal and bottom padding */
+  background-color: #f5f5f5;
+  /* Optional background */
+  box-sizing: border-box;
+  /* Ensure padding doesn't affect height */
+}

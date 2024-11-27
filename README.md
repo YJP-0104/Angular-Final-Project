@@ -1,27 +1,130 @@
-# FinalProject
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+# Final Project Setup Guide
 
-## Development server
+This README provides step-by-step instructions to set up and configure the **Final Project** using Angular and Material UI.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
+## Table of Contents
 
-## Code scaffolding
+1. [Create Project](#1-create-project)
+2. [Install Material UI](#2-install-material-ui)
+3. [Add Components](#3-add-components)
+4. [Add Common Module](#4-add-common-module)
+5. [Add Auth Service](#5-add-auth-service)
+6. [Add Auth Gaurd](#6-add-auth-gaurd)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+--
 
-## Build
+## 1. Create Project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To start, create a new Angular project and navigate into the project directory:
 
-## Running unit tests
+```bash
+ng new final-project
+cd final-project
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 2. Install Material UI
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Add Angular Material to your project:
 
-## Further help
+```bash
+ng add @angular/material@18
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+During the setup process, make the following choices:
+- **Choose a prebuilt theme name**: `Indigo/Pink`
+- **Set up global Angular Material typography styles**: `Yes`
+- **Include the Angular animations module**: `Include, but disable animations`
+
+---
+
+## 3. Add Components
+
+Generate the required components for the application using these commands:
+
+```bash
+ng generate component auth/login
+ng generate component auth/register
+ng generate component home
+ng generate component dashboard
+ng generate component manage-users
+```
+
+This will create the following components:
+- `auth/login`
+- `auth/register`
+- `home`
+- `dashboard`
+- `manage-users`
+
+---
+
+## 4. Add Common Module
+
+Create a shared module to house reusable components, directives, and pipes:
+
+```bash
+ng generate module shared
+```
+
+Import the `SharedModule` in your app or feature modules using `importProvidersFrom`:
+
+### Example of Importing `SharedModule`:
+
+In your `main.ts` or feature module file:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms'; 
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+
+
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  exports:[
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatToolbarModule,
+    MatCardModule
+  ]
+})
+export class SharedModule { }
+
+```
+
+## 5. Add Auth Service
+
+Generate auth service for the application using these commands:
+
+```bash
+ng generate service auth
+```
+
+## 6. Add Auth Gaurd
+
+Generate auth gaurd for the application using these commands:
+
+```bash
+ng generate gaurd auth
+```
+
+---
+
+### You're all set to build your Angular application!
+Happy coding! 🚀

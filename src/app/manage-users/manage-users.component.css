@@ -1,0 +1,15 @@
+.user-management {
+    padding: 16px;
+  }
+  
+  .user-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  

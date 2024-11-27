@@ -1,0 +1,34 @@
+.dashboard-container {
+  margin: 20px;
+  padding: 20px;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.posts-container {
+  margin-top: 32px;
+}
+
+.post-card {
+  margin-bottom: 16px;
+}
+
+.tags {
+  color: #666;
+  font-size: 0.9em;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}

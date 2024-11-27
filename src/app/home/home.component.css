@@ -1,0 +1,18 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to flow to the next line */
+    gap: 8px;       /* Space between cards */
+  }
+  
+  mat-card {
+    flex: 1 1 calc(25% - 16px); /* Each card takes up 25% width minus the gap */
+    max-width: 400px;          /* Optional: set a max-width for the cards */
+    box-sizing: border-box;    /* Ensures padding is included in width calculation */
+  }
+  
+  
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
