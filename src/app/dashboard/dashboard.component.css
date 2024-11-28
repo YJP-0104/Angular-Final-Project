@@ -1,34 +1,54 @@
 .dashboard-container {
-  margin: 20px;
+  max-width: 900px;
+  margin: 20px auto;
   padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logout-button {
+  font-weight: bold;
+}
+
+.form-section {
+  margin-bottom: 30px;
 }
 
 .post-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
-  margin: 20px auto;
+  gap: 15px;
 }
 
 .full-width {
   width: 100%;
 }
 
-.posts-container {
-  margin-top: 32px;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.posts-section {
+  margin-top: 20px;
 }
 
 .post-card {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
+}
+
+.empty-state {
+  text-align: center;
+  font-style: italic;
+  color: gray;
 }
 
 .tags {
-  color: #666;
   font-size: 0.9em;
-}
-
-mat-card-actions {
-  display: flex;
-  justify-content: flex-end;
+  color: #616161;
 }

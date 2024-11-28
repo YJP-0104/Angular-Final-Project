@@ -1,47 +1,69 @@
 <mat-card class="dashboard-container">
-    <mat-card-header>
-      <mat-card-title>Welcome, {{userName}}</mat-card-title>
-    </mat-card-header>
-  
-    <mat-card-content>
+  <mat-card-header class="dashboard-header">
+    <mat-card-title>Welcome, {{ userName }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <!-- Form Section -->
+    <section class="form-section">
+      <h2>{{ isEditing ? 'Edit Post' : 'Create a New Post' }}</h2>
       <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+        <!-- Title Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" placeholder="Enter post title">
+          <!-- <mat-label>Title</mat-label> -->
+          <input matInput formControlName="title" placeholder="Enter post title" />
+          <mat-error *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
+            Title is required.
+          </mat-error>
         </mat-form-field>
-  
+
+        <!-- Content Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Content</mat-label>
+          <!-- <mat-label>Content</mat-label> -->
           <textarea matInput formControlName="content" rows="4" placeholder="Enter post content"></textarea>
+          <mat-error *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
+            Content is required.
+          </mat-error>
         </mat-form-field>
-  
+
+        <!-- Tags Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Tags</mat-label>
-          <input matInput formControlName="tags" placeholder="Enter tags (comma-separated)">
+          <!-- <mat-label>Tags</mat-label> -->
+          <input matInput formControlName="tags" placeholder="Enter tags (comma-separated)" />
         </mat-form-field>
-  
-        <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
-          {{isEditing ? 'Update' : 'Create'}} Post
-        </button>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
+            {{ isEditing ? 'Update' : 'Create' }} Post
+          </button>
+          <button mat-button *ngIf="isEditing" (click)="cancelEdit()">Cancel</button>
+        </div>
       </form>
-  
-      <div class="posts-container">
-        <h2>Your Posts</h2>
-        <mat-card *ngFor="let post of posts" class="post-card">
-          <mat-card-header>
-            <mat-card-title>{{post.title}}</mat-card-title>
-            <mat-card-subtitle>By: {{post.userName}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <p>{{post.content}}</p>
-            <p class="tags">Tags: {{post.tags}}</p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button color="primary" (click)="editPost(post)">EDIT</button>
-            <button mat-button color="warn" (click)="deletePost(post._id)">DELETE</button>
-          </mat-card-actions>
-        </mat-card>
+    </section>
+
+    <!-- Posts Section -->
+    <section class="posts-section">
+      <h2>Your Posts</h2>
+      <div *ngIf="posts.length === 0" class="empty-state">
+        <p>No posts available. Start creating one!</p>
       </div>
-    </mat-card-content>
-  </mat-card>
-  
+      <mat-card *ngFor="let post of posts" class="post-card">
+        <mat-card-header>
+          <mat-card-title>{{ post.title }}</mat-card-title>
+          <mat-card-subtitle>By: {{ post.author }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ post.content }}</p>
+          <p class="tags"><strong>Tags:</strong> {{ post.tags.join(', ') }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button color="primary" (click)="editPost(post)">Edit</button>
+          <button mat-stroked-button color="warn" (click)="deletePost(post._id)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </section>
+  </mat-card-content>
+</mat-card>
