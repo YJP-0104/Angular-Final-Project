@@ -13,7 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatChipsModule } from '@angular/material/chips';
 @NgModule({
   declarations: [], // No components, directives, or pipes here
   imports: [
@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatChipsModule,
 
     // Material Modules
     MatButtonModule,
@@ -38,7 +39,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    MatChipsModule,
     // Material Modules
     MatButtonModule,
     MatFormFieldModule,

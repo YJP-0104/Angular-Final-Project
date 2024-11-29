@@ -1,15 +1,15 @@
-<mat-toolbar color="primary">
-  <span>Angular 17 App</span>
+<mat-toolbar color="primary" class="toolbar">
+  <span class="toolbar-title">Blog Website</span>
   <span class="spacer"></span>
-  <a mat-button routerLink="/" *ngIf="!isLoggedIn()">Home</a>
-  <a mat-button routerLink="/dashboard" *ngIf="isLoggedIn()">Dashboard</a>
-  <a mat-button routerLink="/manage-users" *ngIf="isLoggedIn()">Manage Users</a>
-  <a mat-button routerLink="/login" *ngIf="!isLoggedIn()">Login</a> 
-  <a mat-button routerLink="/register" *ngIf="!isLoggedIn()">Register</a>
-  <a mat-button (click)="onLogout()" *ngIf="isLoggedIn()">Logout</a>
 
+  <a mat-button routerLink="/" *ngIf="!isLoggedIn()" class="nav-link">Home</a>
+  <a mat-button routerLink="/dashboard" *ngIf="isLoggedIn()" class="nav-link">Dashboard</a>
+  <a mat-button routerLink="/" *ngIf="isLoggedIn()" class="nav-link">Home</a>
+  <a mat-button routerLink="/login" *ngIf="!isLoggedIn()" class="nav-link">Login</a>
+  <a mat-button routerLink="/register" *ngIf="!isLoggedIn()" class="nav-link">Register</a>
+  <a mat-button (click)="onLogout()" *ngIf="isLoggedIn()" class="nav-link">Logout</a>
 </mat-toolbar>
 
 <div class="router-container">
-  <router-outlet />
+  <router-outlet></router-outlet>
 </div>
