@@ -53,7 +53,7 @@
       <mat-card *ngFor="let post of posts" class="post-card">
         <mat-card-header>
           <mat-card-title>{{ post.title }}</mat-card-title>
-          <mat-card-subtitle>By: {{ post.author }}</mat-card-subtitle>
+          <mat-card-subtitle>Posted on: {{ post.date }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>{{ post.content }}</p>
