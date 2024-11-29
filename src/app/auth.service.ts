@@ -11,7 +11,6 @@ export class AuthService {
   private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg5ZDc2Y2FhNWVjNzQ5NDQxMThkOSIsInVzZXJuYW1lIjoicGF0ZWwueWFzaGphdEBub3J0aGVhc3Rlcm4uZWR1IiwiaWF0IjoxNzMyNTk2NjY3LCJleHAiOjE3MzQ3NTY2Njd9.qU7_pZ4f2MeBbzrbJDbEsQ6zLyU3S8XEChIA8Xu0YZU';
 
   constructor(private http: HttpClient) {}
-
   login(email: string, password: string): Observable<boolean> {
     const headers = new HttpHeaders({
       Authorization: `${this.token}`,
@@ -31,18 +30,14 @@ export class AuthService {
         if (user) {
           localStorage.setItem('token', this.token);
           localStorage.setItem('userId', user._id);
-          localStorage.setItem('userName', user.title); // Store username
+          localStorage.setItem('userName', user.title || email.split('@')[0]); // Fallback to email username if title is not available
           return true;
         } else {
           throw new Error('Invalid email or password');
         }
-      }),
-      catchError((error) => {
-        console.error('Login error:', error);
-        return throwError(() => new Error('Login failed. Please try again.'));
       })
     );
-  }
+}
   logout(): void {
     localStorage.removeItem('token');
   }

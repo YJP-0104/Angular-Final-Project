@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedModule } from '../shared/shared.module';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -13,16 +13,21 @@ import { SharedModule } from '../shared/shared.module';
 export class DashboardComponent implements OnInit {
   postForm: FormGroup;
   posts: any[] = [];
-  userName: string = localStorage.getItem('userName') || 'Anonymous';
-  userId: string = localStorage.getItem('userId') || '';
+  userName: string;
+  userId: string;
   isEditing: boolean = false;
   editingPostId: string = '';
-  private authToken: string = localStorage.getItem('token') || '';
+  private authToken: string;
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) {
+    this.userName = localStorage.getItem('user') || 'Guest'; // Changed to match registration field
+    this.userId = localStorage.getItem('userId') || '';
+    this.authToken = localStorage.getItem('token') || '';
+
     this.postForm = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
@@ -35,8 +40,10 @@ export class DashboardComponent implements OnInit {
       this.showMessage('Please login to continue');
       return;
     }
+    this.loadUserInfo();
     this.loadPosts();
   }
+
   showMessage(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
@@ -44,7 +51,27 @@ export class DashboardComponent implements OnInit {
       verticalPosition: 'top'
     });
   }
-
+  async loadUserInfo() {
+    try {
+      const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/users', {
+        method: 'GET',
+        headers: {
+          'Authorization': this.authToken
+        }
+      });
+      const userData = await response.json();
+      
+      if (userData.status === 'success' && Array.isArray(userData.data)) {
+        const currentUser = userData.data.find((user: any) => user._id === this.userId);
+        if (currentUser) {
+          this.userName = currentUser.user; // Using the 'user' field from registration
+          localStorage.setItem('user', currentUser.user);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user info:', error);
+    }
+  }
   
   async loadPosts() {
     try {
@@ -84,7 +111,7 @@ export class DashboardComponent implements OnInit {
         timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString('en-GB'),
         userId: this.userId,
-        userName: this.userName
+        user: this.userName // Changed to match registration field
       };
 
       try {
