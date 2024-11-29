@@ -24,15 +24,14 @@ export class AuthService {
           throw new Error('Invalid API response format');
         }
 
-        // Search for user with matching email and password
         const user = data.data.find(
           (u: any) => u.email === email && u.pass === password
         );
 
         if (user) {
-          // Store token and optionally map `_id` to `id` if needed
           localStorage.setItem('token', this.token);
-          console.log(`Logged in user ID: ${user._id}`);
+          localStorage.setItem('userId', user._id);
+          localStorage.setItem('userName', user.title); // Store username
           return true;
         } else {
           throw new Error('Invalid email or password');
@@ -44,7 +43,6 @@ export class AuthService {
       })
     );
   }
-
   logout(): void {
     localStorage.removeItem('token');
   }

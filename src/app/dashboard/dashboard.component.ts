@@ -14,10 +14,10 @@ export class DashboardComponent implements OnInit {
   postForm: FormGroup;
   posts: any[] = [];
   userName: string = localStorage.getItem('userName') || 'Anonymous';
+  userId: string = localStorage.getItem('userId') || '';
   isEditing: boolean = false;
   editingPostId: string = '';
-
-  private authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg5ZDc2Y2FhNWVjNzQ5NDQxMThkOSIsInVzZXJuYW1lIjoicGF0ZWwueWFzaGphdEBub3J0aGVhc3Rlcm4uZWR1IiwiaWF0IjoxNzMyNTk2NjY3LCJleHAiOjE3MzQ3NTY2Njd9.qU7_pZ4f2MeBbzrbJDbEsQ6zLyU3S8XEChIA8Xu0YZU';
+  private authToken: string = localStorage.getItem('token') || '';
 
   constructor(
     private fb: FormBuilder,
@@ -26,54 +26,65 @@ export class DashboardComponent implements OnInit {
     this.postForm = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
-      tags: ['', Validators.required], // Input tags as a comma-separated string
+      tags: ['', Validators.required],
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (!this.userId) {
+      this.showMessage('Please login to continue');
+      return;
+    }
     this.loadPosts();
   }
+  showMessage(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+  }
 
-  // Load posts from the API
+  
   async loadPosts() {
     try {
       const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/blogs', {
         method: 'GET',
         headers: {
-          'Authorization': `${this.authToken}`
+          'Authorization': this.authToken
         }
       });
       const responseData = await response.json();
-  
+
       if (responseData.status === 'success' && Array.isArray(responseData.data)) {
-        this.posts = responseData.data.map((post: any) => ({
+        const userPosts = responseData.data.filter((post: any) => post.userId === this.userId);
+        this.posts = userPosts.map((post: any) => ({
           title: post.title,
           content: post.content,
           timestamp: post.timestamp,
           date: post.date,
           tags: Array.isArray(post.tags) ? post.tags : [],
           _id: post._id,
+          userId: post.userId
         }));
-      } else {
-        this.showMessage('No posts found.');
-        this.posts = [];
       }
     } catch (error) {
       this.showMessage('Error loading posts');
       console.error(error);
     }
   }
-  
-  
-  // Handle form submission for creating or editing a post
+
+
   async onSubmit() {
     if (this.postForm.valid) {
       const postData = {
         title: this.postForm.value.title,
         content: this.postForm.value.content,
-        tags: this.postForm.value.tags.split(',').map((tag: string) => tag.trim()), // Convert tags to an array
+        tags: this.postForm.value.tags.split(',').map((tag: string) => tag.trim()),
         timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString('en-GB'),
+        userId: this.userId,
+        userName: this.userName
       };
 
       try {
@@ -85,7 +96,7 @@ export class DashboardComponent implements OnInit {
           method: this.isEditing ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${this.authToken}`
+            'Authorization': this.authToken
           },
           body: JSON.stringify(postData)
         });
@@ -96,8 +107,6 @@ export class DashboardComponent implements OnInit {
           this.isEditing = false;
           this.editingPostId = '';
           this.loadPosts();
-        } else {
-          this.showMessage('Error saving post');
         }
       } catch (error) {
         this.showMessage('Error saving post');
@@ -105,7 +114,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // Delete a post
   async deletePost(postId: string) {
     try {
       const response = await fetch(`https://smooth-comfort-405104.uc.r.appspot.com/document/deleteOne/blogs/${postId}`, {
@@ -126,28 +134,19 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  // Edit an existing post
   editPost(post: any) {
     this.isEditing = true;
     this.editingPostId = post._id;
     this.postForm.patchValue({
       title: post.title,
       content: post.content,
-      tags: post.tags.join(', '), // Convert array to a comma-separated string
+      tags: post.tags.join(', ')
     });
   }
 
-  // Cancel editing
   cancelEdit(): void {
     this.isEditing = false;
     this.editingPostId = '';
     this.postForm.reset();
-  }
-
-  // Show a snack bar message
-  showMessage(message: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-    });
   }
 }

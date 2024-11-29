@@ -6,35 +6,27 @@
   <mat-divider></mat-divider>
 
   <mat-card-content>
-    <!-- Form Section -->
     <section class="form-section">
       <h2>{{ isEditing ? 'Edit Post' : 'Create a New Post' }}</h2>
       <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
-        <!-- Title Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <!-- <mat-label>Title</mat-label> -->
           <input matInput formControlName="title" placeholder="Enter post title" />
           <mat-error *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
             Title is required.
           </mat-error>
         </mat-form-field>
 
-        <!-- Content Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <!-- <mat-label>Content</mat-label> -->
           <textarea matInput formControlName="content" rows="4" placeholder="Enter post content"></textarea>
           <mat-error *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
             Content is required.
           </mat-error>
         </mat-form-field>
 
-        <!-- Tags Field -->
         <mat-form-field appearance="outline" class="full-width">
-          <!-- <mat-label>Tags</mat-label> -->
           <input matInput formControlName="tags" placeholder="Enter tags (comma-separated)" />
         </mat-form-field>
 
-        <!-- Submit Button -->
         <div class="form-actions">
           <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
             {{ isEditing ? 'Update' : 'Create' }} Post
@@ -44,7 +36,6 @@
       </form>
     </section>
 
-    <!-- Posts Section -->
     <section class="posts-section">
       <h2>Your Posts</h2>
       <div *ngIf="posts.length === 0" class="empty-state">
