@@ -6,14 +6,42 @@
                 <mat-card-title class="blog-title">{{ blog.title }}</mat-card-title>
                 <mat-card-subtitle class="blog-subtitle">By: {{ blog.user }} | {{ blog.date }}</mat-card-subtitle>
             </mat-card-header>
+
             <mat-card-content>
                 <p class="blog-content">{{ blog.content }}</p>
                 <div class="tags">
                     <mat-chip-listbox>
-                        <mat-chip-option *ngFor="let tag of blog.tags" class="tag-chip">
-                            {{ tag }}
-                        </mat-chip-option>
+                        <mat-chip-option *ngFor="let tag of blog.tags">{{ tag }}</mat-chip-option>
                     </mat-chip-listbox>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section">
+                    <h3>Comments ({{ blog.comments.length }})</h3>
+
+                    <!-- Comment Form -->
+                    <form [formGroup]="commentForm" (ngSubmit)="addComment(blog._id)" class="comment-form">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <textarea matInput formControlName="comment" placeholder="Write a comment..."></textarea>
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!commentForm.valid">
+                            Post Comment
+                        </button>
+                    </form>
+
+                    <!-- Comments List -->
+                    <div class="comments-list">
+                        <mat-card *ngFor="let comment of blog.comments" class="comment-card">
+                            <mat-card-header>
+                                <mat-card-subtitle>
+                                    {{ comment.userName }} - {{ comment.date }}
+                                </mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>{{ comment.text }}</p>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>
