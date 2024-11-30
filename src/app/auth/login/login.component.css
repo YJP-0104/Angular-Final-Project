@@ -1,16 +1,82 @@
-.login-form {
-  max-width: 400px;
-  margin: 0 auto;
+.login-container {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.full-width {
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
   width: 100%;
 }
 
 .button-container {
+  margin-top: 1rem;
+}
+
+.login-button {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.login-button:not([disabled]):hover {
+  transform: translateY(-2px);
+}
+
+.error-container {
+  padding: 0.8rem;
+  border-radius: 4px;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.additional-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+
+  .additional-options {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
