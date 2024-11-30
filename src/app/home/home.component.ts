@@ -1,16 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    SharedModule
-  ],
+  imports: [SharedModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   blogs: any[] = [];
   commentForm: FormGroup;
   private authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg5ZDc2Y2FhNWVjNzQ5NDQxMThkOSIsInVzZXJuYW1lIjoicGF0ZWwueWFzaGphdEBub3J0aGVhc3Rlcm4uZWR1IiwiaWF0IjoxNzMyNTk2NjY3LCJleHAiOjE3MzQ3NTY2Njd9.qU7_pZ4f2MeBbzrbJDbEsQ6zLyU3S8XEChIA8Xu0YZU';
@@ -22,50 +21,45 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
-    this.loadBlogs();
-    this.loadAllComments();
+    this.loadBlogsWithComments();
   }
 
-  async loadBlogs() {
+  async loadBlogsWithComments() {
     try {
-      const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/blogs', {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authToken
-        }
-      });
-      const data = await response.json();
+      // Load blogs and comments in parallel for better performance
+      const [blogsResponse, commentsResponse] = await Promise.all([
+        fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/blogs', {
+          method: 'GET',
+          headers: { 'Authorization': this.authToken }
+        }),
+        fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/comments', {
+          method: 'GET',
+          headers: { 'Authorization': this.authToken }
+        })
+      ]);
 
-      if (data.status === 'success' && Array.isArray(data.data)) {
-        this.blogs = data.data.map((blog: any) => ({
+      const blogsData = await blogsResponse.json();
+      const commentsData = await commentsResponse.json();
+
+      if (blogsData.status === 'success' && commentsData.status === 'success') {
+        const comments = commentsData.data || [];
+        
+        this.blogs = blogsData.data.map((blog: any) => ({
           ...blog,
-          comments: []
+          comments: comments.filter((comment: any) => comment.blogId === blog._id)
+            .sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
         }));
+
+        // Store in localStorage for persistence
+        localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
       }
     } catch (error) {
-      console.error('Error loading blogs:', error);
-    }
-  }
-
-  async loadAllComments() {
-    try {
-      const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/comments', {
-        method: 'GET',
-        headers: {
-          'Authorization': this.authToken
-        }
-      });
-      const data = await response.json();
-
-      if (data.status === 'success' && Array.isArray(data.data)) {
-        // Map comments to their respective blogs
-        this.blogs = this.blogs.map(blog => ({
-          ...blog,
-          comments: data.data.filter((comment: any) => comment.blogId === blog._id)
-        }));
+      console.error('Error loading data:', error);
+      // Fallback to cached data if available
+      const cachedData = localStorage.getItem('blogsWithComments');
+      if (cachedData) {
+        this.blogs = JSON.parse(cachedData);
       }
-    } catch (error) {
-      console.error('Error loading comments:', error);
     }
   }
 
@@ -91,12 +85,27 @@ export class HomeComponent {
         });
 
         if (response.ok) {
+          // Update local state immediately
+          const blogIndex = this.blogs.findIndex(blog => blog._id === blogId);
+          if (blogIndex !== -1) {
+            this.blogs[blogIndex].comments.unshift(commentData);
+            // Update localStorage
+            localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
+          }
+
           this.commentForm.reset();
-          await this.loadAllComments();
+          // Refresh comments from server
+          await this.loadBlogsWithComments();
         }
       } catch (error) {
         console.error('Error posting comment:', error);
       }
     }
-  }  
+  }
+
+  // Add method to handle page refresh
+  @HostListener('window:beforeunload')
+  saveState() {
+    localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
+  }
 }

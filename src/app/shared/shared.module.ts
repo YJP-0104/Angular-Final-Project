@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   declarations: [], // No components, directives, or pipes here
   imports: [
@@ -22,6 +23,7 @@ import { MatChipsModule } from '@angular/material/chips';
     ReactiveFormsModule,
     HttpClientModule,
     MatChipsModule,
+    CKEditorModule,
 
     // Material Modules
     MatButtonModule,
@@ -41,6 +43,7 @@ import { MatChipsModule } from '@angular/material/chips';
     HttpClientModule,
     MatChipsModule,
     // Material Modules
+    CKEditorModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
