@@ -16,8 +16,10 @@
           </mat-error>
         </mat-form-field>
 
+        <!-- Regular Textarea for Content -->
         <mat-form-field appearance="outline" class="full-width">
-          <textarea matInput formControlName="content" rows="4" placeholder="Enter post content"></textarea>
+          <textarea matInput formControlName="content" placeholder="Write your post content here..." rows="10">
+          </textarea>
           <mat-error *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
             Content is required.
           </mat-error>
@@ -47,7 +49,7 @@
           <mat-card-subtitle>Posted on: {{ post.date }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p>{{ post.content }}</p>
+          <div [innerHTML]="post.content"></div>
           <p class="tags"><strong>Tags:</strong> {{ post.tags.join(', ') }}</p>
         </mat-card-content>
         <mat-card-actions>

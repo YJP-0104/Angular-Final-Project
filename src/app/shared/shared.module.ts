@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+// import { NgxEditorModule } from 'ngx-editor';
 
 // Angular Material Modules
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +25,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     HttpClientModule,
     MatChipsModule,
     CKEditorModule,
+    // NgxEditorModule,
 
     // Material Modules
     MatButtonModule,
@@ -53,6 +55,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     MatTableModule,
     MatDividerModule,
     MatSnackBarModule,
+    // NgxEditorModule,
   ],
 })
 export class SharedModule {}

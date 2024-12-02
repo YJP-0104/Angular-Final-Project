@@ -54,21 +54,59 @@
 }
 .editor-container {
   margin-bottom: 20px;
+}
+
+.editor-container {
+  margin-bottom: 20px;
+}
+
+.editor-label {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.rich-text-editor {
   border: 1px solid #ddd;
   border-radius: 4px;
+  min-height: 300px;
 }
 
-:host ::ng-deep .ck-editor__editable {
-  min-height: 200px;
-  max-height: 400px;
+::ng-deep .NgxEditor {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-:host ::ng-deep .ck-content {
-  font-size: 16px;
+::ng-deep .NgxEditor__Content {
+  min-height: 250px;
+  padding: 16px;
+}
+
+::ng-deep .NgxEditor__MenuBar {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  background: #f8f9fa;
+}
+
+::ng-deep .NgxEditor__MenuItem {
+  margin: 0 4px;
+}
+
+::ng-deep .NgxEditor__Placeholder {
+  color: #999;
 }
 
 .post-card mat-card-content {
   margin-top: 16px;
+}
+
+.post-card mat-card-content ::ng-deep {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* Style for rendered HTML content */

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
+// import { Editor } from 'ngx-editor';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -10,7 +11,8 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  // editor: Editor;
   postForm: FormGroup;
   posts: any[] = [];
   userName: string;
@@ -33,6 +35,7 @@ export class DashboardComponent implements OnInit {
       content: ['', Validators.required],
       tags: ['', Validators.required],
     });
+    // this.editor = new Editor();
   }
 
   ngOnInit(): void {
@@ -43,7 +46,9 @@ export class DashboardComponent implements OnInit {
     this.loadUserInfo();
     this.loadPosts();
   }
-
+  ngOnDestroy(): void {
+    // this.editor.destroy();
+  }
   showMessage(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 3000,

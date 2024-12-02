@@ -11,6 +11,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HomeComponent implements OnInit {
   blogs: any[] = [];
+  filteredBlogs: any[] = [];
+  searchTerm: string = '';
   commentForm: FormGroup;
   private authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg5ZDc2Y2FhNWVjNzQ5NDQxMThkOSIsInVzZXJuYW1lIjoicGF0ZWwueWFzaGphdEBub3J0aGVhc3Rlcm4uZWR1IiwiaWF0IjoxNzMyNTk2NjY3LCJleHAiOjE3MzQ3NTY2Njd9.qU7_pZ4f2MeBbzrbJDbEsQ6zLyU3S8XEChIA8Xu0YZU';
 
@@ -24,9 +26,21 @@ export class HomeComponent implements OnInit {
     this.loadBlogsWithComments();
   }
 
+  filterBlogs(searchTerm: string) {
+    this.searchTerm = searchTerm.toLowerCase();
+    if (!this.searchTerm) {
+      this.filteredBlogs = this.blogs;
+    } else {
+      this.filteredBlogs = this.blogs.filter(blog => 
+        blog.tags.some((tag: string) => 
+          tag.toLowerCase().includes(this.searchTerm)
+        )
+      );
+    }
+  }
+
   async loadBlogsWithComments() {
     try {
-      // Load blogs and comments in parallel for better performance
       const [blogsResponse, commentsResponse] = await Promise.all([
         fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/findAll/blogs', {
           method: 'GET',
@@ -50,15 +64,15 @@ export class HomeComponent implements OnInit {
             .sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
         }));
 
-        // Store in localStorage for persistence
+        this.filteredBlogs = this.blogs;
         localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
       }
     } catch (error) {
       console.error('Error loading data:', error);
-      // Fallback to cached data if available
       const cachedData = localStorage.getItem('blogsWithComments');
       if (cachedData) {
         this.blogs = JSON.parse(cachedData);
+        this.filteredBlogs = this.blogs;
       }
     }
   }
@@ -85,16 +99,13 @@ export class HomeComponent implements OnInit {
         });
 
         if (response.ok) {
-          // Update local state immediately
           const blogIndex = this.blogs.findIndex(blog => blog._id === blogId);
           if (blogIndex !== -1) {
             this.blogs[blogIndex].comments.unshift(commentData);
-            // Update localStorage
             localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
           }
 
           this.commentForm.reset();
-          // Refresh comments from server
           await this.loadBlogsWithComments();
         }
       } catch (error) {
@@ -103,7 +114,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // Add method to handle page refresh
   @HostListener('window:beforeunload')
   saveState() {
     localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
