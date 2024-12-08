@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { PostDialogComponent } from '../post-dialog/post-dialog.component';
 
-// import { Editor } from 'ngx-editor';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -15,7 +15,7 @@ import { PostDialogComponent } from '../post-dialog/post-dialog.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit{
-  // editor: Editor;
+
   postForm: FormGroup;
   posts: any[] = [];
   userName: string;
@@ -39,11 +39,14 @@ export class DashboardComponent implements OnInit{
       content: ['', Validators.required],
       tags: ['', Validators.required],
     });
-    // this.editor = new Editor();
+ 
   }
   openPostDialog(post?: any) {
     const dialogRef = this.dialog.open(PostDialogComponent, {
-      width: '700px',
+      width: '90%',
+      maxWidth: '1200px',
+      height: '90vh',
+      panelClass: 'word-editor-dialog',
       data: { post: post }
     });
 
@@ -66,7 +69,7 @@ export class DashboardComponent implements OnInit{
     this.loadPosts();
   }
   ngOnDestroy(): void {
-    // this.editor.destroy();
+   
   }
   showMessage(message: string) {
     this.snackBar.open(message, 'Close', {
@@ -146,7 +149,7 @@ export class DashboardComponent implements OnInit{
       if (userData.status === 'success' && Array.isArray(userData.data)) {
         const currentUser = userData.data.find((user: any) => user._id === this.userId);
         if (currentUser) {
-          this.userName = currentUser.user; // Using the 'user' field from registration
+          this.userName = currentUser.user; 
           localStorage.setItem('user', currentUser.user);
         }
       }
@@ -193,7 +196,7 @@ export class DashboardComponent implements OnInit{
         timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString('en-GB'),
         userId: this.userId,
-        user: this.userName // Changed to match registration field
+        user: this.userName 
       };
 
       try {

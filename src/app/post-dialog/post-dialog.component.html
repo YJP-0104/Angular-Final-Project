@@ -9,12 +9,9 @@
                 <mat-error *ngIf="postForm.get('title')?.invalid">Title is required</mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Content</mat-label>
-                <textarea matInput formControlName="content" rows="10"
-                    placeholder="Write your post content here..."></textarea>
-                <mat-error *ngIf="postForm.get('content')?.invalid">Content is required</mat-error>
-            </mat-form-field>
+            <!-- Replace textarea with angular-editor -->
+            <angular-editor formControlName="content" [config]="editorConfig"
+                placeholder="Write your post content here..."></angular-editor>
 
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Tags</mat-label>

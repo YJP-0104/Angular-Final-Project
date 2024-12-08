@@ -8,3 +8,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.word-editor-dialog .mat-mdc-dialog-container {
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.word-editor-dialog .mat-mdc-dialog-surface {
+  background: #f8f9fa;
+}

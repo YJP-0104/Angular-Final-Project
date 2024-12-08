@@ -1,4 +1,79 @@
+/* Editor Container Styles */
+::ng-deep .angular-editor {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Toolbar Styles */
+::ng-deep .angular-editor-toolbar {
+  background: #f8f9fa !important;
+  border: none !important;
+  padding: 10px !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+}
+
+::ng-deep .angular-editor-toolbar button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+}
+
+::ng-deep .angular-editor-toolbar button:hover {
+  background-color: #e9ecef !important;
+  border-color: #dee2e6 !important;
+}
+
+::ng-deep .angular-editor-toolbar button.active {
+  background-color: #e9ecef !important;
+  border-color: #dee2e6 !important;
+}
+
+/* Editor Content Area */
+::ng-deep .angular-editor-textarea {
+  background: white !important;
+  padding: 20px !important;
+  min-height: 300px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Font Styles */
+::ng-deep .angular-editor-textarea {
+  font-family: "Calibri", sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
+}
+
+/* Custom Classes */
+::ng-deep .quote {
+  border-left: 3px solid #ccc;
+  padding-left: 10px;
+  font-style: italic;
+}
+
+::ng-deep .redText {
+  color: red;
+}
+
+::ng-deep .titleText {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Dialog Sizing */
 .post-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+mat-dialog-content {
+  flex: 1;
+  overflow: hidden;
   padding: 20px;
 }
 
@@ -6,7 +81,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px;
+  height: 100%;
 }
 
 .full-width {
@@ -14,7 +89,7 @@
 }
 
 mat-dialog-content {
-  min-width: 500px;
+  min-width: 600px;
   max-height: 80vh;
 }
 
