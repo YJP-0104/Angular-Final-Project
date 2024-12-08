@@ -97,3 +97,18 @@ mat-dialog-actions {
   margin-top: 20px;
   padding: 20px 0;
 }
+::ng-deep .angular-editor-textarea ul {
+  list-style-type: disc !important;
+  padding-left: 40px !important;
+}
+
+::ng-deep .angular-editor-textarea ol {
+  list-style-type: decimal !important;
+  padding-left: 40px !important;
+}
+
+/* Ensure proper spacing for list items */
+::ng-deep .angular-editor-textarea li {
+  display: list-item !important;
+  margin: 5px 0 !important;
+}

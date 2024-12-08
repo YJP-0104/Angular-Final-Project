@@ -22,46 +22,16 @@ export class PostDialogComponent {
     height: '400px',
     minHeight: '300px',
     maxHeight: '600px',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
     placeholder: 'Enter text here...',
+    translate: 'yes',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
-    defaultFontSize: '3',
-    fonts: [
-      {class: 'arial', name: 'Arial'},
-      {class: 'times-new-roman', name: 'Times New Roman'},
-      {class: 'calibri', name: 'Calibri'},
-      {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-    ],
-    customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    uploadUrl: 'v1/image',
-    uploadWithCredentials: false,
-    sanitize: true,
     toolbarPosition: 'top',
-    toolbarHiddenButtons: [
-      [
-        'subscript',
-        'superscript',
-      ],
-    ]
+    // Add font-awesome for better symbols
+    toolbarHiddenButtons: [],
+    sanitize: false, // Important for bullet symbols
+    outline: true,
+  
   };
 
 
