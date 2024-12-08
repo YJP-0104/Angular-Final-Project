@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '../shared/shared.module';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-comments-dialog',
@@ -12,6 +13,31 @@ import { SharedModule } from '../shared/shared.module';
 })
 export class CommentsDialogComponent {
   commentForm: FormGroup;
+  
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '150px', // Smaller height for comments
+    minHeight: '100px',
+    maxHeight: '200px',
+    placeholder: 'Write your comment here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarPosition: 'top',
+    toolbarHiddenButtons: [
+      [
+        'backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ]
+  };
 
   constructor(
     private fb: FormBuilder,

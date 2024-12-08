@@ -1,51 +1,69 @@
 .comments-dialog {
-    padding: 20px;
-  }
-  
-  .comments-list {
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-  }
-  
-  .comment-card {
-    margin-bottom: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
-  
-  .username {
-    font-weight: 500;
-    color: #1976d2;
-  }
-  
-  .date {
-    color: #666;
-    font-size: 0.9em;
-  }
-  
-  .comment-text {
-    padding: 0 15px 15px;
-    color: #333;
-  }
-  
-  .comment-form {
-    margin-top: 20px;
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  
-  mat-dialog-actions {
-    margin-top: 20px;
-  }
-  
-  
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.comments-list {
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comment-card {
+  margin-bottom: 15px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.comment-text {
+  margin-top: 10px;
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+/* Rich Text Editor Styles */
+::ng-deep .angular-editor {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+::ng-deep .angular-editor-toolbar {
+  border: none !important;
+  background: #f8f9fa !important;
+}
+
+::ng-deep .angular-editor-textarea {
+  padding: 10px !important;
+  background: white !important;
+}
+
+::ng-deep .angular-editor-toolbar button {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+}
+
+::ng-deep .angular-editor-toolbar button:hover {
+  background-color: #e9ecef !important;
+  border-color: #dee2e6 !important;
+}
+
+button[type="submit"] {
+  margin-top: 15px;
+}
