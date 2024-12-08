@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { PostDialogComponent } from '../post-dialog/post-dialog.component';
+
 // import { Editor } from 'ngx-editor';
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit{
   // editor: Editor;
   postForm: FormGroup;
   posts: any[] = [];
@@ -22,6 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private authToken: string;
 
   constructor(
+    private dialog: MatDialog,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private http: HttpClient
@@ -37,7 +41,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     // this.editor = new Editor();
   }
+  openPostDialog(post?: any) {
+    const dialogRef = this.dialog.open(PostDialogComponent, {
+      width: '700px',
+      data: { post: post }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (post) {
+          this.updatePost(post._id, result);
+        } else {
+          this.createPost(result);
+        }
+      }
+    });
+  }
   ngOnInit(): void {
     if (!this.userId) {
       this.showMessage('Please login to continue');
@@ -55,6 +74,64 @@ export class DashboardComponent implements OnInit, OnDestroy {
       horizontalPosition: 'center',
       verticalPosition: 'top'
     });
+  }
+
+  async createPost(postData: any) {
+    const data = {
+      ...postData,
+      tags: postData.tags.split(',').map((tag: string) => tag.trim()),
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString('en-GB'),
+      userId: this.userId,
+      user: this.userName
+    };
+
+    try {
+      const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/createorupdate/blogs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.authToken
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        this.showMessage('Post created successfully');
+        this.loadPosts();
+      }
+    } catch (error) {
+      this.showMessage('Error creating post');
+    }
+  }
+
+  async updatePost(postId: string, postData: any) {
+    const data = {
+      ...postData,
+      tags: postData.tags.split(',').map((tag: string) => tag.trim()),
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString('en-GB'),
+      userId: this.userId,
+      user: this.userName
+    };
+
+    try {
+      const response = await fetch(`https://smooth-comfort-405104.uc.r.appspot.com/document/updateOne/blogs/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.authToken
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        this.showMessage('Post updated successfully');
+        this.loadPosts();
+      }
+    } catch (error) {
+      this.showMessage('Error updating post');
+    }
   }
   async loadUserInfo() {
     try {

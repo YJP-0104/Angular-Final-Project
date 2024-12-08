@@ -1,0 +1,24 @@
+.post-dialog {
+  padding: 20px;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-content {
+  min-width: 500px;
+  max-height: 80vh;
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+  padding: 20px 0;
+}

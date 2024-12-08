@@ -1,130 +1,68 @@
 .dashboard-container {
-  max-width: 900px;
-  margin: 20px auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
 }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.welcome-card {
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #1976d2, #64b5f6);
+  color: white;
 }
 
-.logout-button {
-  font-weight: bold;
+.welcome-card mat-card-title {
+  font-size: 24px;
 }
 
-.form-section {
-  margin-bottom: 30px;
+.action-bar {
+  margin-bottom: 20px;
+  text-align: right;
 }
 
-.post-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.posts-section {
-  margin-top: 20px;
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .post-card {
-  margin-bottom: 15px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-content {
+  margin: 15px 0;
+  max-height: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .empty-state {
+  grid-column: 1 / -1;
   text-align: center;
-  font-style: italic;
-  color: gray;
+  padding: 40px;
+  color: #666;
 }
 
-.tags {
-  font-size: 0.9em;
-  color: #616161;
-}
-.editor-container {
-  margin-bottom: 20px;
-}
-
-.editor-container {
-  margin-bottom: 20px;
+.empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
 }
 
-.editor-label {
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 14px;
-  margin-bottom: 8px;
-  display: block;
+mat-chip-listbox {
+  margin-top: 10px;
 }
 
-.rich-text-editor {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  min-height: 300px;
-}
-
-::ng-deep .NgxEditor {
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-::ng-deep .NgxEditor__Content {
-  min-height: 250px;
-  padding: 16px;
-}
-
-::ng-deep .NgxEditor__MenuBar {
-  border-bottom: 1px solid #ddd;
+mat-card-actions {
+  margin-top: auto;
   padding: 8px;
-  background: #f8f9fa;
-}
-
-::ng-deep .NgxEditor__MenuItem {
-  margin: 0 4px;
-}
-
-::ng-deep .NgxEditor__Placeholder {
-  color: #999;
-}
-
-.post-card mat-card-content {
-  margin-top: 16px;
-}
-
-.post-card mat-card-content ::ng-deep {
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-}
-
-/* Style for rendered HTML content */
-.post-card mat-card-content ::ng-deep {
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  blockquote {
-    border-left: 4px solid #ccc;
-    margin-left: 0;
-    padding-left: 16px;
-  }
-
-  pre {
-    background: #f5f5f5;
-    padding: 16px;
-    border-radius: 4px;
-  }
 }

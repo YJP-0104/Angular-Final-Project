@@ -1,62 +1,45 @@
-<mat-card class="dashboard-container">
-  <mat-card-header class="dashboard-header">
-    <mat-card-title>Welcome, {{ userName }}</mat-card-title>
-  </mat-card-header>
+<div class="dashboard-container">
+  <mat-card class="welcome-card">
+    <mat-card-header>
+      <mat-card-title>Welcome, {{ userName }}</mat-card-title>
+      <mat-card-subtitle>Manage your blog posts</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
 
-  <mat-divider></mat-divider>
+  <div class="action-bar">
+    <button mat-raised-button color="primary" (click)="openPostDialog()">
+      <mat-icon>add</mat-icon>
+      Create New Post
+    </button>
+  </div>
 
-  <mat-card-content>
-    <section class="form-section">
-      <h2>{{ isEditing ? 'Edit Post' : 'Create a New Post' }}</h2>
-      <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
-        <mat-form-field appearance="outline" class="full-width">
-          <input matInput formControlName="title" placeholder="Enter post title" />
-          <mat-error *ngIf="postForm.get('title')?.invalid && postForm.get('title')?.touched">
-            Title is required.
-          </mat-error>
-        </mat-form-field>
+  <div class="posts-grid">
+    <div *ngIf="posts.length === 0" class="empty-state">
+      <mat-icon>article</mat-icon>
+      <p>No posts available. Start creating one!</p>
+    </div>
 
-        <!-- Regular Textarea for Content -->
-        <mat-form-field appearance="outline" class="full-width">
-          <textarea matInput formControlName="content" placeholder="Write your post content here..." rows="10">
-          </textarea>
-          <mat-error *ngIf="postForm.get('content')?.invalid && postForm.get('content')?.touched">
-            Content is required.
-          </mat-error>
-        </mat-form-field>
+    <mat-card *ngFor="let post of posts" class="post-card">
+      <mat-card-header>
+        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-subtitle>Posted on: {{ post.date }}</mat-card-subtitle>
+      </mat-card-header>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <input matInput formControlName="tags" placeholder="Enter tags (comma-separated)" />
-        </mat-form-field>
+      <mat-card-content>
+        <div [innerHTML]="post.content" class="post-content"></div>
+        <mat-chip-listbox>
+          <mat-chip *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
+        </mat-chip-listbox>
+      </mat-card-content>
 
-        <div class="form-actions">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">
-            {{ isEditing ? 'Update' : 'Create' }} Post
-          </button>
-          <button mat-button *ngIf="isEditing" (click)="cancelEdit()">Cancel</button>
-        </div>
-      </form>
-    </section>
-
-    <section class="posts-section">
-      <h2>Your Posts</h2>
-      <div *ngIf="posts.length === 0" class="empty-state">
-        <p>No posts available. Start creating one!</p>
-      </div>
-      <mat-card *ngFor="let post of posts" class="post-card">
-        <mat-card-header>
-          <mat-card-title>{{ post.title }}</mat-card-title>
-          <mat-card-subtitle>Posted on: {{ post.date }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div [innerHTML]="post.content"></div>
-          <p class="tags"><strong>Tags:</strong> {{ post.tags.join(', ') }}</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-stroked-button color="primary" (click)="editPost(post)">Edit</button>
-          <button mat-stroked-button color="warn" (click)="deletePost(post._id)">Delete</button>
-        </mat-card-actions>
-      </mat-card>
-    </section>
-  </mat-card-content>
-</mat-card>
+      <mat-card-actions>
+        <button mat-icon-button color="primary" (click)="openPostDialog(post)" matTooltip="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deletePost(post._id)" matTooltip="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="post-dialog">
+    <h2 mat-dialog-title>{{ isEditing ? 'Edit Post' : 'Create New Post' }}</h2>
+
+    <mat-dialog-content>
+        <form [formGroup]="postForm" class="post-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Title</mat-label>
+                <input matInput formControlName="title" placeholder="Enter post title">
+                <mat-error *ngIf="postForm.get('title')?.invalid">Title is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Content</mat-label>
+                <textarea matInput formControlName="content" rows="10"
+                    placeholder="Write your post content here..."></textarea>
+                <mat-error *ngIf="postForm.get('content')?.invalid">Content is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Tags</mat-label>
+                <input matInput formControlName="tags" placeholder="Enter tags (comma-separated)">
+                <mat-hint>Example: technology, programming, web</mat-hint>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!postForm.valid">
+            {{ isEditing ? 'Update' : 'Create' }}
+        </button>
+    </mat-dialog-actions>
+</div>
