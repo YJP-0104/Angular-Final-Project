@@ -1,0 +1,33 @@
+<div class="comments-dialog">
+    <h2 mat-dialog-title>Comments ({{data.comments.length}})</h2>
+    
+    <mat-dialog-content>
+      <div class="comments-list">
+        <mat-card *ngFor="let comment of data.comments" class="comment-card">
+          <mat-card-header>
+            <mat-card-subtitle class="comment-header">
+              <span class="username">{{comment.userName}}</span>
+              <span class="date">{{comment.date}}</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="comment-text">{{comment.text}}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+  
+      <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="comment-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Write a comment</mat-label>
+          <textarea matInput formControlName="comment" rows="3"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!commentForm.valid">
+          Post Comment
+        </button>
+      </form>
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="onClose()">Close</button>
+    </mat-dialog-actions>
+  </div>

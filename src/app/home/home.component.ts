@@ -1,30 +1,45 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { CommentsDialogComponent } from '../comments-dialog/comments-dialog.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   blogs: any[] = [];
   filteredBlogs: any[] = [];
   searchTerm: string = '';
-  commentForm: FormGroup;
+
   private authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg5ZDc2Y2FhNWVjNzQ5NDQxMThkOSIsInVzZXJuYW1lIjoicGF0ZWwueWFzaGphdEBub3J0aGVhc3Rlcm4uZWR1IiwiaWF0IjoxNzMyNTk2NjY3LCJleHAiOjE3MzQ3NTY2Njd9.qU7_pZ4f2MeBbzrbJDbEsQ6zLyU3S8XEChIA8Xu0YZU';
 
-  constructor(private fb: FormBuilder) {
-    this.commentForm = this.fb.group({
-      comment: ['', Validators.required]
-    });
-  }
+  constructor(
+    private dialog: MatDialog,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.loadBlogsWithComments();
   }
+
+  openCommentsDialog(blog: any) {
+    const dialogRef = this.dialog.open(CommentsDialogComponent, {
+      width: '600px',
+      data: { comments: blog.comments, blogId: blog._id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addComment(blog._id, result);
+      }
+    });
+  }
+
 
   filterBlogs(searchTerm: string) {
     this.searchTerm = searchTerm.toLowerCase();
@@ -77,42 +92,34 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async addComment(blogId: string) {
-    if (this.commentForm.valid) {
-      const commentData = {
-        text: this.commentForm.value.comment,
-        blogId: blogId,
-        userId: localStorage.getItem('userId'),
-        userName: localStorage.getItem('userName') || 'Anonymous',
-        timestamp: new Date().toISOString(),
-        date: new Date().toLocaleDateString()
-      };
+  async addComment(blogId: string, commentText: string) {
+    const commentData = {
+      text: commentText,
+      blogId: blogId,
+      userId: localStorage.getItem('userId'),
+      userName: localStorage.getItem('userName') || 'Anonymous',
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString()
+    };
 
-      try {
-        const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/createorupdate/comments', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': this.authToken
-          },
-          body: JSON.stringify(commentData)
-        });
+    try {
+      const response = await fetch('https://smooth-comfort-405104.uc.r.appspot.com/document/createorupdate/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.authToken
+        },
+        body: JSON.stringify(commentData)
+      });
 
-        if (response.ok) {
-          const blogIndex = this.blogs.findIndex(blog => blog._id === blogId);
-          if (blogIndex !== -1) {
-            this.blogs[blogIndex].comments.unshift(commentData);
-            localStorage.setItem('blogsWithComments', JSON.stringify(this.blogs));
-          }
-
-          this.commentForm.reset();
-          await this.loadBlogsWithComments();
-        }
-      } catch (error) {
-        console.error('Error posting comment:', error);
+      if (response.ok) {
+        await this.loadBlogsWithComments();
       }
+    } catch (error) {
+      console.error('Error posting comment:', error);
     }
   }
+
 
   @HostListener('window:beforeunload')
   saveState() {

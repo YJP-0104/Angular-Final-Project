@@ -1,7 +1,25 @@
 .home-container {
-  padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+}
+
+.home-title {
+  text-align: center;
+  color: #1976d2;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-field {
+  width: 100%;
+  max-width: 500px;
 }
 
 .blog-grid {
@@ -11,28 +29,35 @@
 }
 
 .blog-card {
-  margin-bottom: 20px;
+  transition: transform 0.2s;
+  height: 100%;
 }
 
-.comments-section {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+.blog-card:hover {
+  transform: translateY(-5px);
 }
 
-.comment-form {
+.blog-content {
   margin: 15px 0;
-}
-
-.comment-form .full-width {
-  width: 100%;
-}
-
-.comment-card {
-  margin: 10px 0;
-  background-color: #f8f9fa;
+  color: #333;
 }
 
 .tags {
-  margin: 10px 0;
+  margin: 15px 0;
+}
+
+.comments-button {
+  margin-top: 10px;
+  color: #1976d2;
+}
+
+.comments-button mat-icon {
+  margin-right: 5px;
+}
+
+.no-results {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 20px;
+  color: #666;
 }
