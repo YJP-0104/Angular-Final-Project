@@ -6,8 +6,11 @@
   <a mat-button routerLink="/dashboard" *ngIf="isLoggedIn()" class="nav-link">Dashboard</a>
   <a mat-button routerLink="/" *ngIf="isLoggedIn()" class="nav-link">Home</a>
   <a mat-button routerLink="/login" *ngIf="!isLoggedIn()" class="nav-link">Login</a>
+
   <a mat-button routerLink="/register" *ngIf="!isLoggedIn()" class="nav-link">Register</a>
   <a mat-button (click)="onLogout()" *ngIf="isLoggedIn()" class="nav-link">Logout</a>
+
+
 </mat-toolbar>
 
 <div class="router-container">

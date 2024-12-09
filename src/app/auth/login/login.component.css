@@ -23,14 +23,32 @@
 
 .form-field {
   width: 100%;
+  margin-bottom: 16px;
 }
 
-.mat-mdc-form-field {
+.error-message,
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+button[type="submit"] {
   width: 100%;
-}
-
-.button-container {
-  margin-top: 1rem;
+  margin: 16px 0;
 }
 
 .login-button {
@@ -79,4 +97,28 @@
     align-items: center;
     gap: 0.5rem;
   }
+}
+error-message,
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.success-message {
+  color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
 }
