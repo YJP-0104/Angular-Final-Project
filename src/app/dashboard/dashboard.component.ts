@@ -44,8 +44,8 @@ export class DashboardComponent implements OnInit{
   openPostDialog(post?: any) {
     const dialogRef = this.dialog.open(PostDialogComponent, {
       width: '90%',
-      maxWidth: '1200px',
-      height: '90vh',
+      maxWidth: '1000px',
+      height: '100vh',
       panelClass: 'word-editor-dialog',
       data: { post: post }
     });

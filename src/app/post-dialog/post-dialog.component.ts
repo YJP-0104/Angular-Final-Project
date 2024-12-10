@@ -21,7 +21,7 @@ export class PostDialogComponent {
     spellcheck: true,
     height: '400px',
     minHeight: '300px',
-    maxHeight: '600px',
+    maxHeight: '400px',
     placeholder: 'Enter text here...',
     translate: 'yes',
     defaultParagraphSeparator: 'p',
